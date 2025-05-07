@@ -3,6 +3,14 @@ from gameparts import Board  # Импортирую собственный мо�
 # импортируется класс FieldIndexError и CellOccupiedError
 from gameparts.exceptions import CellOccupiedError, FieldIndexError
 
+
+def save_result(result_message):
+    with open('results.txt', 'a') as file:
+        # Записать в файл содержимое переменной result.
+        file.write(result_message + '\n')
+    file.close()
+
+
 def main():
     # Создать игровое поле - объект класса Board.
     game = Board()
@@ -73,10 +81,14 @@ def main():
 
         # После каждого хода надо делать проверку на победу и на ничью.
         if game.check_win(current_player):
-            print(f'Победили {current_player}.')
+            game_result = f'Победили {current_player}.'
+            print(game_result)
+            save_result(game_result)
             running = False
         elif game.is_board_full():
-            print('Ничья!')
+            game_result = 'Ничья!'
+            print(game_result)
+            save_result(game_result)
             running = False
 
         # Тернарный оператор, через который реализована смена игроков.
